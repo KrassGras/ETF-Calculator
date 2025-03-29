@@ -27,10 +27,10 @@ t = int(laufzeit)
 r = float(rendite) / 100
 eingezahlterBetrag = P
 for jahr in range(1, t + 1):
-    endkapital = berechne_Wert(endkapital, r, 1, M)  # Monatliche Einzahlungen werden jährlich addiert
-    eingezahlterBetrag += M*12
-    chartdata[jahr] = endkapital
-
+       if einamligeAnlage != "" and montatlich != "" and laufzeit != "" and rendite != "":
+        endkapital = berechne_Wert(endkapital, r, 1, M)  # Monatliche Einzahlungen werden jährlich addiert
+        eingezahlterBetrag += M*12
+        chartdata[jahr] = endkapital
 reineRendite = endkapital - eingezahlterBetrag
 
 data = pd.DataFrame({
