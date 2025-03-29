@@ -18,19 +18,35 @@ st.write("Rendite")
 rendite = st.text_input("Rendite %")
 chartdata = dict()
 
-endkapital = berechne_Wert(int(einamligeAnlage), float(rendite)/100, 1, int(montatlich))
-chartdata[1] = endkapital
 
-P = int(einamligeAnlage)
-M = int(montatlich)
-t = int(laufzeit)
-r = float(rendite) / 100
+if not einamligeAnlage:
+    P = 0
+else:
+    P = int(einamligeAnlage)
+if not montatlich:
+    M = 0
+else:
+    M = int(montatlich)
+
+if not laufzeit:
+    t = 0
+else:
+    t = int(laufzeit)
+
+if not rendite:
+    r = 1
+else:
+    r = float(rendite) / 100
+
+endkapital = berechne_Wert(P, r, 1, M)
+chartdata[1] = endkapital
 eingezahlterBetrag = P
 for jahr in range(1, t + 1):
-       if einamligeAnlage != "" and montatlich != "" and laufzeit != "" and rendite != "":
+    if einamligeAnlage != "" and montatlich != "" and laufzeit != "" and rendite != "":
         endkapital = berechne_Wert(endkapital, r, 1, M)  # Monatliche Einzahlungen werden jährlich addiert
         eingezahlterBetrag += M*12
         chartdata[jahr] = endkapital
+
 reineRendite = endkapital - eingezahlterBetrag
 
 data = pd.DataFrame({
