@@ -63,5 +63,5 @@ col2.metric(label="eingezahler Betrag", value=f"{eingezahlterBetrag}€")
 col3.metric(label="Rendite", value=f"{round(reineRendite)}€")
 
 
-
+st.write("Die hier bereitgestellten Berechnungen dienen nur zur Orientierung und erfolgen ohne Gewähr. Für finanzielle Entscheidungen sollten zusätzliche Quellen oder professionelle Beratung hinzugezogen werden.")
 
