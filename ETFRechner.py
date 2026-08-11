@@ -2,6 +2,8 @@ import streamlit as st
 import pandas as pd
 
 def berechne_Wert(P, r, t,  M):
+    if r == 0:
+        return P + M * 12 * t
     endkapital = P * ((1 + r) ** t) + M * 12 * (((1 + r) ** t) - 1) / r
     return endkapital
 
@@ -34,18 +36,17 @@ else:
     t = int(laufzeit)
 
 if not rendite:
-    r = 1
+    r = 0
 else:
     r = float(rendite) / 100
 
-endkapital = berechne_Wert(P, r, 1, M)
-chartdata[1] = endkapital
+endkapital = P
 eingezahlterBetrag = P
+chartdata[0] = P
 for jahr in range(1, t + 1):
-    if einamligeAnlage != "" and montatlich != "" and laufzeit != "" and rendite != "":
-        endkapital = berechne_Wert(endkapital, r, 1, M)  # Monatliche Einzahlungen werden jährlich addiert
-        eingezahlterBetrag += M*12
-        chartdata[jahr] = endkapital
+    endkapital = berechne_Wert(endkapital, r, 1, M)  # Monatliche Einzahlungen werden jährlich addiert
+    eingezahlterBetrag += M*12
+    chartdata[jahr] = endkapital
 
 reineRendite = endkapital - eingezahlterBetrag
 
