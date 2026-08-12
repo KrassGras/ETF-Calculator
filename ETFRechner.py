@@ -65,30 +65,35 @@ col3.metric(label="Rendite", value=f"{round(reineRendite)}€")
 
 
 st.header("Sparraten-Rechner")
-st.write("Berechne die monatliche Sparrate, die du brauchst, um dein Vermögensziel zu erreichen. Einmalige Anlage und Laufzeit werden von oben übernommen.")
+st.write("Berechne die monatliche Sparrate, die du brauchst, um dein Vermögensziel zu erreichen. Die einmalige Anlage wird von oben übernommen.")
 vermoegensziel = st.text_input("Vermögensziel in €")
+zielLaufzeit = st.text_input("Ziel-Laufzeit in Jahre")
 zielRendite = st.text_input("erwartete jährliche Rendite in %", value="7")
 
 if not vermoegensziel:
     ziel = 0
 else:
     ziel = int(vermoegensziel)
+if not zielLaufzeit:
+    zt = 0
+else:
+    zt = int(zielLaufzeit)
 if not zielRendite:
     zr = 0.07
 else:
     zr = float(zielRendite) / 100
 
 if ziel > 0:
-    if t <= 0:
-        st.write("Bitte oben eine Laufzeit angeben.")
+    if zt <= 0:
+        st.write("Bitte eine Ziel-Laufzeit angeben.")
     else:
-        wachstum = (1 + zr) ** t
+        wachstum = (1 + zr) ** zt
         if zr == 0:
-            benoetigteRate = (ziel - P) / (12 * t)
+            benoetigteRate = (ziel - P) / (12 * zt)
         else:
             benoetigteRate = (ziel - P * wachstum) * zr / (12 * (wachstum - 1))
         if benoetigteRate <= 0:
-            st.write(f"Deine einmalige Anlage von {P}€ reicht bereits aus, um das Ziel von {ziel}€ in {t} Jahren zu erreichen.")
+            st.write(f"Deine einmalige Anlage von {P}€ reicht bereits aus, um das Ziel von {ziel}€ in {zt} Jahren zu erreichen.")
         else:
             st.metric(label="benötigte monatliche Sparrate", value=f"{round(benoetigteRate, 2)}€")
 
