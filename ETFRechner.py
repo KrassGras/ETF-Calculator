@@ -68,8 +68,9 @@ with tab1:
 
 
 with tab2:
-    st.write("Berechne die monatliche Sparrate, die du brauchst, um dein Vermögensziel zu erreichen. Die einmalige Anlage wird vom ETF-Rechner übernommen.")
+    st.write("Berechne die monatliche Sparrate, die du brauchst, um dein Vermögensziel zu erreichen.")
     vermoegensziel = st.text_input("Vermögensziel in €")
+    aktuellesVermoegen = st.text_input("aktuelles Vermögen in €")
     zielLaufzeit = st.text_input("Ziel-Laufzeit in Jahre")
     zielRendite = st.text_input("erwartete jährliche Rendite in %", value="7")
 
@@ -77,6 +78,10 @@ with tab2:
         ziel = 0
     else:
         ziel = int(vermoegensziel)
+    if not aktuellesVermoegen:
+        vermoegen = 0
+    else:
+        vermoegen = int(aktuellesVermoegen)
     if not zielLaufzeit:
         zt = 0
     else:
@@ -92,11 +97,11 @@ with tab2:
         else:
             wachstum = (1 + zr) ** zt
             if zr == 0:
-                benoetigteRate = (ziel - P) / (12 * zt)
+                benoetigteRate = (ziel - vermoegen) / (12 * zt)
             else:
-                benoetigteRate = (ziel - P * wachstum) * zr / (12 * (wachstum - 1))
+                benoetigteRate = (ziel - vermoegen * wachstum) * zr / (12 * (wachstum - 1))
             if benoetigteRate <= 0:
-                st.write(f"Deine einmalige Anlage von {P}€ reicht bereits aus, um das Ziel von {ziel}€ in {zt} Jahren zu erreichen.")
+                st.write(f"Dein aktuelles Vermögen von {vermoegen}€ reicht bereits aus, um das Ziel von {ziel}€ in {zt} Jahren zu erreichen.")
             else:
                 st.metric(label="benötigte monatliche Sparrate", value=f"{round(benoetigteRate, 2)}€")
 
